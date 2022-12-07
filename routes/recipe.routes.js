@@ -114,7 +114,7 @@ router.get("/recipe/:id/edit", async (req, res) => {
 
 
 
-//edit post
+//edit post recipe
 router.post("/recipe/:id",/*  uploader.single("Image"), */(req, res, next) => {
     const id = req.params.id
     const { name, region, type, time, service, ingredients, instructions, tips, reviews /* owner */ } = req.body
@@ -174,6 +174,7 @@ router.post('/recipe/:id/delete', (req, res) => {
                     .then(deletedRecipe => {
                         if (deletedRecipe.imgPath) {
                             // delete the image on cloudinary
+
                             cloudinary.uploader.destroy(deletedRecipe.publicId)
                         }
                         res.redirect('/profile')
