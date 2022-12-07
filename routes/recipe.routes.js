@@ -4,93 +4,61 @@ const Recipe = require("../models/Recipe.model");
 
 
 //create Recipe
-router.get('/recipe/create', (req, res) => {
-    res.render('recipe/new', { user: req.session.user })
-});
 
 
 // read Recipe
-router.get('/recipe/read', (req, res) => {
+router.get('/pages/CRUD/read', (req, res) => {
     Recipe.find()
-        .then(Recipe => res.render('recipe', { Recipe, user: req.session.user }))
+        .then(Recipe => res.json('recipe', { Recipe, user: req.session.user }))
         .catch(err => console.log(err))
-    res.render('recipe/details', { user: req.session.user })
+    res.json('/pages/CRUD/details', { user: req.session.user })
 });
 
 
 //create post
-router.post('/recipe/create', uploader.single("Image"), (req, res) => {
-    const userId = req.session.user._id
-    const { name, region, type, time, service, ingredients, instructions, tips, reviews /* owner */ } = req.body
-    const imgName = req.file.originalname
-    const imgPath = req.file.path
-    const publicId = req.file.filename
+router.post('/pages/CRUD/create',  (req, res) => {
+
+    const { name, region, type, time, service, ingredients, instructions, tips, reviews,   image, owner } = req.body
+  
     Recipe.create({
         name,
         region,
         type,
-        imgName,
-        imgPath,
-        publicId,
+        image,
         time,
         service,
         ingredients,
         instructions,
         tips,
         reviews,
-        owner: userId,
+        owner,
     })
-        .then(createdRecipe => res.redirect('/profile'))
-        .catch(err => res.render("recipe/new", { user: req.session.user }))
+        .then(createdRecipe => res.json(createdRecipe))
+        .catch(err => res.status)
 });
 
 
-//get all recipe
-router.get('/recipe/recepies', (req, res) => {
+//get all recipe in details
+router.get('/pages/CRUD/details', (req, res) => {
     Recipe.find()
-        .then(recipe => res.render('Recipes/recepies', { recipe, user: req.session.user }))
+        .then(recipes => res.json( recipes ))
         .catch(err => console.log(err))
 });
 
 
 
-// search 
-router.get('/recipe/results', (req, res) => {
-    const query = req.query.q
-    console.log(query)
-    const recipeFound = []
-    Recipe.find({})
-        .then(recipeFromDB => {
-            if (recipeFromDB === null) {
-                res.render("recipe/results", { user: req.session.user, message: 'Sorry, no results found'/* , isLoggedIn */ })
-                return
-            }
-            else {
-                for (let recipe of recipeFromDB) {
-                    console.log(recipe)
-                    if (recipe.name.toLowerCase().includes(query.toLowerCase())) {
-                        recipeFound.push(recipe)
-                    }
-                    else if (recipe.speciality.includes(query)) {
-                        recipeFound.push(recipe)
-                    }
-                }
-                res.render("recipes/results", { recipeFound: recipeFound, user: req.session.user/* , isLoggedIn */ })
-            }
-        })
-})
 
 
 
 //get details
-router.get("/recipe/:id", (req, res) => {
+router.get("/pages/CRUD/:id", (req, res) => {
     const id = req.params.id
     console.log(id)
     Recipe.findById(id)
         // .populate("User")
         .then(recipe => {
             console.log(recipe)
-            res.render("recipe/details", { recipe, user: req.session.user })
+            res.json(recipe)
         }
         )
         .catch(err => console.log(err))
@@ -99,13 +67,13 @@ router.get("/recipe/:id", (req, res) => {
 
 //edit recipe get
 
-router.get("/recipe/:id/edit", async (req, res) => {
+router.get("/pages/CRUD/:id/edit", async (req, res) => {
     const id = req.params.id
     Recipe.findById(id)
     try {
         const recipe = await Recipe.findById(id)
         // console.log(recipe)
-        res.render("recipe/edit", { user: req.session.user, recipe })
+        res.json("pages/CRUD/edit", { user: req.session.user, recipe })
     } catch (err) {
         console.log(err)
     }
@@ -115,7 +83,7 @@ router.get("/recipe/:id/edit", async (req, res) => {
 
 
 //edit post recipe
-router.post("/recipe/:id",/*  uploader.single("Image"), */(req, res, next) => {
+router.post("/pages/CRUD/:id",/*  uploader.single("Image"), */(req, res, next) => {
     const id = req.params.id
     const { name, region, type, time, service, ingredients, instructions, tips, reviews /* owner */ } = req.body
     /*   const imgName = req.file.originalname
@@ -143,14 +111,14 @@ router.post("/recipe/:id",/*  uploader.single("Image"), */(req, res, next) => {
         .then(data => {
             if (data.owner._id.toString() !== req.session.user._id) {
                 console.log(err)
-                // res.render("recipe/rest", { user: req.session.user, recipe, message: "Oops! you can not Edit." })
+                // res.json("recipe/rest", { user: req.session.user, recipe, message: "Oops! you can not Edit." })
             } else {
                 Recipe.findByIdAndUpdate(id, recipe, { new: true })
 
                     .then(createdRecipe => {
                         console.log(createdRecipe)
 
-                        res.redirect("/profile")
+                        res.redirect("/ProfilePage/ProfilePage")
                     })
             }
         })
@@ -162,13 +130,13 @@ router.post("/recipe/:id",/*  uploader.single("Image"), */(req, res, next) => {
 
 
 //delete recipe
-router.post('/recipe/:id/delete', (req, res) => {
+router.post('/pages/CRUD/:id/delete', (req, res) => {
     const id = req.params.id
 
     Recipe.findById(id)
         .then(data => {
             if (data.owner._id.toString() !== req.session.user._id) {
-                res.render("/", { user: req.session.user, message: "Oops! you can not delete." })
+                res.json("/", { user: req.session.user, message: "Oops! you can not delete." })
             } else {
                 Recipe.findByIdAndRemove(id)
                     .then(deletedRecipe => {
@@ -177,7 +145,7 @@ router.post('/recipe/:id/delete', (req, res) => {
 
                             cloudinary.uploader.destroy(deletedRecipe.publicId)
                         }
-                        res.redirect('/profile')
+                        res.redirect('/ProfilePage/ProfilePage')
                     })
             }
         })
