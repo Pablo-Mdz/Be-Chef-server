@@ -18,7 +18,7 @@ router.get('/pages/CRUD/read', (req, res) => {
 //create post
 router.post('/pages/CRUD/create',  (req, res) => {
 
-    const { name, region, type, image, time, service, ingredients, instructions, tips, reviews,   owner } = req.body
+    const { name, region, type, image, time, service, ingredients, instructions, tips, reviews, owner } = req.body
   
     Recipe.create({
         name,
@@ -127,23 +127,15 @@ router.post("/pages/CRUD/:id",/*  uploader.single("Image"), */(req, res, next) =
 //delete recipe
 router.post('/pages/CRUD/:id/delete', (req, res) => {
     const id = req.params.id
-
-    Recipe.findById(id)
-        .then(data => {
-            if (data.owner._id.toString() !== req.session.user._id) {
-                res.json("/", { user: req.session.user, message: "Oops! you can not delete." })
-            } else {
                 Recipe.findByIdAndRemove(id)
                     .then(deletedRecipe => {
-                        if (deletedRecipe.imgPath) {
-                            // delete the image on cloudinary
+                        // if (deletedRecipe.imgPath) {
+                        //     // delete the image on cloudinary
 
-                            cloudinary.uploader.destroy(deletedRecipe.publicId)
-                        }
-                        res.redirect('/ProfilePage/ProfilePage')
+                        //     cloudinary.uploader.destroy(deletedRecipe.publicId)
+                        // }
+                        res.json(deletedRecipe)
                     })
-            }
-        })
         .catch(err => console.log(err))
 });
 
