@@ -18,7 +18,7 @@ router.get('/pages/CRUD/read', (req, res) => {
 //create post
 router.post('/pages/CRUD/create',  (req, res) => {
 
-    const { name, region, type, time, service, ingredients, instructions, tips, reviews,   image, owner } = req.body
+    const { name, region, type, image, time, service, ingredients, instructions, tips, reviews,   owner } = req.body
   
     Recipe.create({
         name,
@@ -85,7 +85,7 @@ router.get("/pages/CRUD/:id/edit", async (req, res) => {
 //edit post recipe
 router.post("/pages/CRUD/:id",/*  uploader.single("Image"), */(req, res, next) => {
     const id = req.params.id
-    const { name, region, type, time, service, ingredients, instructions, tips, reviews /* owner */ } = req.body
+    const { name, region, type,image, time, service, ingredients, instructions, tips, reviews /* owner */ } = req.body
     /*   const imgName = req.file.originalname
       const imgPath = req.file.path
       const publicId = req.file.filename   */
@@ -94,18 +94,13 @@ router.post("/pages/CRUD/:id",/*  uploader.single("Image"), */(req, res, next) =
         name,
         region,
         type,
-        imgName,
-        imgPath,
-        publicId,
+        image,
         time,
         service,
         ingredients,
         instructions,
         tips,
         reviews,
-        /*  imgName, 
-         imgPath, 
-         publicId, */
     }
     Recipe.findById(id)
         .then(data => {
