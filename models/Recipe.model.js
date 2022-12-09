@@ -14,7 +14,7 @@ const RecipeSchema = new Schema(
         tips: String,
         reviews: String,
         // [{ owner: User_id }, { title: String }, { description: String }],
-        owner: String,
+        owner: { type: Schema.Types.ObjectId, ref: "User" },
     },
     {
         timestamps: true,
