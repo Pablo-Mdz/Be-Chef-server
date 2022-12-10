@@ -7,14 +7,17 @@ const RecipeSchema = new Schema(
         region: String,
         type: String,
         image: String,
-        time: Number,
-        service: Number,
+        time: String,
+        service: String,
         ingredients: String,
         instructions: String,
         tips: String,
         reviews: String,
         // [{ owner: User_id }, { title: String }, { description: String }],
-        owner: String,
+        owner: {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        },
     },
     {
         timestamps: true,
