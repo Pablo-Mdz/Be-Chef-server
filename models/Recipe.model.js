@@ -9,10 +9,10 @@ const RecipeSchema = new Schema(
         image: String,
         time: String,
         service: String,
-        ingredients: String,
-        instructions: String,
+        ingredients: [],
+        instructions: [],
         tips: String,
-        reviews: String,
+        reviews: [],
         // [{ owner: User_id }, { title: String }, { description: String }],
         owner: {
             type: Schema.Types.ObjectId,

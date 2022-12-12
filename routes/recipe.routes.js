@@ -19,7 +19,8 @@ router.get('/pages/CRUD/read', (req, res) => {
 router.post('/pages/CRUD/create', (req, res) => {
 
     const { name, region, type, image, time, service, ingredients, instructions, tips, reviews, owner } = req.body
-
+    console.log("Kjk", req.body)
+    console.log(ingredients)
     Recipe.create({
         name,
         region,
