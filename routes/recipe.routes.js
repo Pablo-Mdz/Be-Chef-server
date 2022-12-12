@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { findByIdAndUpdate } = require("../models/Recipe.model");
 const Recipe = require("../models/Recipe.model");
 // const { uploader, cloudinary } = require("../config/cloudinary")
 
@@ -79,7 +80,7 @@ router.get("/pages/CRUD/:id/edit", async (req, res) => {
         console.log(err)
     }
 })
-
+// findByIdAndUpdate
 
 
 
@@ -130,11 +131,11 @@ router.post('/pages/CRUD/:id/delete', (req, res) => {
     const id = req.params.id
     Recipe.findByIdAndRemove(id)
         .then(deletedRecipe => {
-            // if (deletedRecipe.imgPath) {
-            //     // delete the image on cloudinary
+            if (deletedRecipe.imgPath) {
+                // delete the image on cloudinary
 
-            //     cloudinary.uploader.destroy(deletedRecipe.publicId)
-            // }
+                cloudinary.uploader.destroy(deletedRecipe.publicId)
+            }
             res.json(deletedRecipe)
         })
         .catch(err => console.log(err))
