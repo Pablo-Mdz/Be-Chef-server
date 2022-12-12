@@ -17,6 +17,7 @@ router.get('/pages/CRUD/read', (req, res) => {
 
 //create post
 router.post('/pages/CRUD/create', (req, res) => {
+
     console.log("hit!")
 
     const { name, region, type,
@@ -28,6 +29,7 @@ router.post('/pages/CRUD/create', (req, res) => {
         reviews,
         owner, image } = req.body
     console.log(req.body)
+
     Recipe.create({
         name,
         region,
@@ -55,6 +57,7 @@ router.get('/pages/CRUD/details', (req, res) => {
 
 
 
+//test 3
 
 
 
