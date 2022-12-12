@@ -16,10 +16,10 @@ router.get('/pages/CRUD/read', (req, res) => {
 
 
 //create post
-router.post('/pages/CRUD/create',  (req, res) => {
+router.post('/pages/CRUD/create', (req, res) => {
 
     const { name, region, type, image, time, service, ingredients, instructions, tips, reviews, owner } = req.body
-  
+
     Recipe.create({
         name,
         region,
@@ -41,12 +41,13 @@ router.post('/pages/CRUD/create',  (req, res) => {
 //get all recipe in details
 router.get('/pages/CRUD/details', (req, res) => {
     Recipe.find()
-        .then(recipes => res.json( recipes ))
+        .then(recipes => res.json(recipes))
         .catch(err => console.log(err))
 });
 
 
 
+//test 3
 
 
 
@@ -85,7 +86,7 @@ router.get("/pages/CRUD/:id/edit", async (req, res) => {
 //edit post recipe
 router.post("/pages/CRUD/:id",/*  uploader.single("Image"), */(req, res, next) => {
     const id = req.params.id
-    const { name, region, type,image, time, service, ingredients, instructions, tips, reviews /* owner */ } = req.body
+    const { name, region, type, image, time, service, ingredients, instructions, tips, reviews /* owner */ } = req.body
     /*   const imgName = req.file.originalname
       const imgPath = req.file.path
       const publicId = req.file.filename   */
@@ -127,15 +128,15 @@ router.post("/pages/CRUD/:id",/*  uploader.single("Image"), */(req, res, next) =
 //delete recipe
 router.post('/pages/CRUD/:id/delete', (req, res) => {
     const id = req.params.id
-                Recipe.findByIdAndRemove(id)
-                    .then(deletedRecipe => {
-                        // if (deletedRecipe.imgPath) {
-                        //     // delete the image on cloudinary
+    Recipe.findByIdAndRemove(id)
+        .then(deletedRecipe => {
+            // if (deletedRecipe.imgPath) {
+            //     // delete the image on cloudinary
 
-                        //     cloudinary.uploader.destroy(deletedRecipe.publicId)
-                        // }
-                        res.json(deletedRecipe)
-                    })
+            //     cloudinary.uploader.destroy(deletedRecipe.publicId)
+            // }
+            res.json(deletedRecipe)
+        })
         .catch(err => console.log(err))
 });
 
