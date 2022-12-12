@@ -18,7 +18,17 @@ router.get('/pages/CRUD/read', (req, res) => {
 //create post
 router.post('/pages/CRUD/create', (req, res) => {
 
-    const { name, region, type, image, time, service, ingredients, instructions, tips, reviews, owner } = req.body
+    console.log("hit!")
+
+    const { name, region, type,
+        time,
+        service,
+        ingredients,
+        instructions,
+        tips,
+        reviews,
+        owner, image } = req.body
+    console.log(req.body)
 
     Recipe.create({
         name,
