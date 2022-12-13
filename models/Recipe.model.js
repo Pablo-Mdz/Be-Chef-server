@@ -3,13 +3,24 @@ const { Schema, model } = require("mongoose");
 
 const RecipeSchema = new Schema(
     {
-        name: String,
+        name: {
+            type: String,
+            required: [true, "Name is required."],
+            unique: true
+        },
+        type: {
+            type: String,
+            required: [true, "Type is required."],
+        },
+        ingredients: [{
+            quantity: Number,
+            measure: String,
+            singleIngredient: String,
+        }],
         region: String,
-        type: String,
         image: String,
         time: String,
         service: String,
-        ingredients: [],
         instructions: [],
         tips: String,
         reviews: [],
