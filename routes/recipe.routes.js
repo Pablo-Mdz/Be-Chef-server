@@ -48,7 +48,18 @@ router.get('/pages/CRUD/details', (req, res) => {
         .catch(err => console.log(err))
 });
 
-
+// likes
+router.put('/pages/CRUD/:id/likes', (req, res, next) => {
+    const [ ...likes]  = req.body
+    console.log(likes)
+    Recipe.findByIdAndUpdate(req.params.id, {
+    likes
+    })
+      .then(data => {
+        res.json(data)
+      })
+      .catch(err => next(err))
+  });
 
 
 
