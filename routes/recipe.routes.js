@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { findByIdAndUpdate } = require("../models/Recipe.model");
 const Recipe = require("../models/Recipe.model");
+const fileUploader = require("../config/cloudinary.config.back")
 // const { uploader, cloudinary } = require("../config/cloudinary")
 
 
@@ -140,5 +141,21 @@ router.post('/pages/CRUD/:id/delete', (req, res) => {
         })
         .catch(err => console.log(err))
 });
+
+
+
+// upload image user
+
+router.post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
+    // console.log("file is: ", req.file)
+   
+    if (!req.file) {
+      next(new Error("No file uploaded!"));
+      return;
+    }  res.json({ secure_url: req.file.path });
+  });
+
+
+
 
 module.exports = router;
