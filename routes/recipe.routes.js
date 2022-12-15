@@ -13,7 +13,7 @@ router.get('/pages/CRUD/read', (req, res) => {
     Recipe.find()
         .then(Recipe => res.json('recipe', { Recipe, user: req.session.user }))
         .catch(err => console.log(err))
-    res.json('/pages/CRUD/details', { user: req.session.user })
+    res.json('/pages/CRUD/recipesHome', { user: req.session.user })
 });
 
 
@@ -39,9 +39,9 @@ router.post('/pages/CRUD/create', (req, res) => {
         .then(createdRecipe => res.json(createdRecipe))
         .catch(err => res.status)
 });
-// test
 
-//get all recipe in details
+
+//get all recipe in details when is user
 router.get('/pages/CRUD/details', (req, res) => {
     Recipe.find()
         .then(recipes => res.json(recipes))
