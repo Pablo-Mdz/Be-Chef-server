@@ -21,7 +21,6 @@ const userSchema = new Schema(
         imageUrl: String,
     },
     {
-        // this second object adds extra properties: `createdAt` and `updatedAt`
         timestamps: true,
     }
 );

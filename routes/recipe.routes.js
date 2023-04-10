@@ -5,9 +5,6 @@ const fileUploader = require("../config/cloudinary.config.back")
 // const { uploader, cloudinary } = require("../config/cloudinary")
 
 
-//create Recipe
-
-
 // read Recipe
 router.get('/pages/CRUD/read', (req, res) => {
     Recipe.find()

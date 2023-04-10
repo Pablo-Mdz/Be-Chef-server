@@ -24,7 +24,6 @@ const RecipeSchema = new Schema(
         instructions: [],
         tips: String,
         reviews: [],
-        // [{ owner: User_id }, { title: String }, { description: String }],
         likes: [],
         owner: {
             id: {
