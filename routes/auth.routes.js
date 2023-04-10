@@ -18,7 +18,7 @@ const saltRounds = 10;
 
 // POST /auth/signup  - Creates a new user in the database
 router.post("/signup", (req, res, next) => {
-    const { email, password, name , imageUrl} = req.body;
+    const { email, password, name, imageUrl } = req.body;
 
     // Check if email or password or name are provided as empty strings
     if (email === "" || password === "" || name === "") {
@@ -43,24 +43,24 @@ router.post("/signup", (req, res, next) => {
         return;
     }
 
-    
+
     User.findOne({ email })
         .then((foundUser) => {
-           
+
             if (foundUser) {
                 res.status(400).json({ message: "User already exists." });
                 return;
             }
             const salt = bcrypt.genSaltSync(saltRounds);
             const hashedPassword = bcrypt.hashSync(password, salt);
-            return User.create({ email, password: hashedPassword, name , imageUrl});
+            return User.create({ email, password: hashedPassword, name, imageUrl });
         })
         .then((createdUser) => {
             const { email, name, _id, imageUrl } = createdUser;
-            const user = { email, name, _id , imageUrl};
+            const user = { email, name, _id, imageUrl };
             res.status(201).json({ user: user });
         })
-        .catch((err) => next(err)); 
+        .catch((err) => next(err));
 });
 
 
@@ -82,10 +82,10 @@ router.post("/login", (req, res, next) => {
             if (passwordCorrect) {
                 const { _id, email, name, imageUrl } = foundUser;
 
-                // Create an object that will be set as the token payload
-                const payload = { _id, email, name , imageUrl};
 
-                // Create a JSON Web Token and sign it
+                const payload = { _id, email, name, imageUrl };
+
+
                 const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
                     algorithm: "HS256",
                     expiresIn: "6h",
@@ -97,19 +97,13 @@ router.post("/login", (req, res, next) => {
                 res.status(401).json({ message: "Unable to authenticate the user" });
             }
         })
-        .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
+        .catch((err) => next(err));
 });
 
-// GET  /auth/verify  -  Used to verify JWT stored on the client
-router.get("/verify", isAuthenticated, (req, res, next) => {
-    // If JWT token is valid the payload gets decoded by the
-    // isAuthenticated middleware and is made available on `req.payload`
-    // console.log(`req.payload`, req.payload);
 
-    // Send back the token payload object containing the user data
+router.get("/verify", isAuthenticated, (req, res, next) => {
     res.status(200).json(req.payload);
 });
 
 module.exports = router;
 
-// test
