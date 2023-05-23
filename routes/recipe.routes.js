@@ -5,7 +5,7 @@ const fileUploader = require("../config/cloudinary.config.back")
 // const { uploader, cloudinary } = require("../config/cloudinary")
 
 
-// read Recipe
+
 router.get('/pages/CRUD/read', (req, res) => {
     Recipe.find()
         .then(Recipe => res.json('recipe', { Recipe, user: req.session.user }))
@@ -14,7 +14,6 @@ router.get('/pages/CRUD/read', (req, res) => {
 });
 
 
-//create post
 router.post('/pages/CRUD/create', (req, res) => {
 
     const { name, region, type, image, time, service, ingredients, instructions, tips, reviews, owner } = req.body
@@ -38,14 +37,13 @@ router.post('/pages/CRUD/create', (req, res) => {
 });
 
 
-//get all recipe in details when is user
 router.get('/pages/CRUD/details', (req, res) => {
     Recipe.find()
         .then(recipes => res.json(recipes))
         .catch(err => console.log(err))
 });
 
-// likes
+
 router.put('/pages/CRUD/:id/likes', (req, res, next) => {
     const [ ...likes]  = req.body
     Recipe.findByIdAndUpdate(req.params.id, {
@@ -133,7 +131,7 @@ router.get("/pages/CRUD/:id", (req, res) => {
 
 
 
-//delete recipe
+
 router.post('/pages/CRUD/:id/delete', (req, res) => {
     const id = req.params.id
     Recipe.findByIdAndRemove(id)
@@ -150,7 +148,7 @@ router.post('/pages/CRUD/:id/delete', (req, res) => {
 
 
 
-// upload image user
+
 
 router.post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
     // console.log("file is: ", req.file)

@@ -1,5 +1,4 @@
-// ℹ️ package responsible to make the connection with mongodb
-// https://www.npmjs.com/package/mongoose
+
 const mongoose = require("mongoose");
 
 const MONGO_URI = process.env.MONGO_DB || "mongodb://127.0.0.1:27017/chef";
