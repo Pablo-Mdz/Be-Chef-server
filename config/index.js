@@ -13,7 +13,7 @@ module.exports = (app) => {
     app.use(
         cors({
             // origin: "https://be-chef.netlify.app",
-            // origin: "https://be-chef.netlify.app",
+            
             origin: FRONTEND_URL,
             credentials: true,
         })
