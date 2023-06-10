@@ -73,7 +73,7 @@ router.get("/pages/CRUD/:id", (req, res) => {
 })
 
 
-//edit recipe get
+//edit recipe get to edit
 // router.get("/pages/CRUD/:id/edit", async (req, res) => {
 //     const id = req.params.id
 //     Recipe.findById(id)
@@ -89,7 +89,7 @@ router.get("/pages/CRUD/:id", (req, res) => {
 
 
 
-//edit post recipe
+//edit post recipe on process
 // router.post("/pages/CRUD/:id",/*  uploader.single("Image"), */(req, res, next) => {
 //     const id = req.params.id
 //     const { name, region, type, image, time, service, ingredients, instructions, tips, reviews /* owner */ } = req.body

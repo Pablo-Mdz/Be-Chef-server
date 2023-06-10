@@ -4,6 +4,7 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const FRONTEND_URL = process.env.ORIGIN || "http://localhost:3000";
+// to use where?
 const FRONTEND_URL2 = process.env.ORIGIN || "http://localhost:5005";
 
 
